@@ -2,54 +2,38 @@ package app.dao;
 
 import org.springframework.stereotype.Component;
 import app.model.User;
-/*import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;*/
-
-import java.util.ArrayList;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Component
-//@Transactional(readOnly = true)
+@Transactional
 public class UserDAO {
-    private static int USERS_COUNT;
-    private List<User> users;
 
-    {
-        users = new ArrayList<>();
-        users.add(new User(++USERS_COUNT, "Леонид", "Романов", "romanovsparta@ya.ru"));
-        users.add(new User(++USERS_COUNT, "Евгений", "Горский", "eugen@mail.ru"));
-        users.add(new User(++USERS_COUNT, "Рамиль", "Арсланов", "ramil@mail.ru"));
-        users.add(new User(++USERS_COUNT, "Борис", "Акумов", "boris@mail.ru"));
-    }
-
-    /*@PersistenceContext
-    private EntityManager entityManager;*/
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<User> getAllUsers() {
-        return users;
+        return entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
     }
 
-    public User show(int id) {
-        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
+    public User getUser(int id) {
+        return (User) entityManager.createQuery("FROM User WHERE id = :id").setParameter("id", id).getSingleResult();
     }
 
-    //@Transactional
     public void save(User user) {
-        user.setId(++USERS_COUNT);
-        users.add(user);
-        //entityManager.persist(user);
+        entityManager.persist(user);
     }
 
     public void update(int id, User upUser) {
-        User userToBeUpdated = show(id);
+        User userToBeUpdated = getUser(id);
         userToBeUpdated.setFirstName(upUser.getFirstName());
         userToBeUpdated.setSurName(upUser.getSurName());
         userToBeUpdated.setEmail(upUser.getEmail());
     }
 
     public void delete(int id) {
-        users.removeIf(p -> p.getId() == id);
+        entityManager.remove(getUser(id));
     }
 }

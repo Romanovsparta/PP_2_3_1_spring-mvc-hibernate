@@ -1,11 +1,11 @@
 package app.model;
 
-//import javax.persistence.*;
+import javax.persistence.*;
 
-//@Entity
+@Entity
 public class User {
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String surName;
@@ -24,10 +24,6 @@ public class User {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
