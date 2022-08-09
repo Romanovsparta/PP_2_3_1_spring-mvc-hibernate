@@ -1,11 +1,12 @@
 package app.service;
 
 import app.dao.UserDAO;
-import org.springframework.stereotype.Component;
 import app.model.User;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;

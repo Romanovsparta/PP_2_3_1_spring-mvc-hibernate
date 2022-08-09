@@ -1,13 +1,12 @@
 package app.dao;
 
-import org.springframework.stereotype.Component;
 import app.model.User;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Component
+@Repository
 public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
